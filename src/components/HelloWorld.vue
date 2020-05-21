@@ -1,60 +1,119 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router" target="_blank" rel="noopener">router</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-vuex" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div>
+    <van-checkbox-group class="card-goods" v-model="checkedGoods">
+      <van-checkbox
+        class="card-goods__item"
+        v-for="item in goods"
+        :key="item.id"
+        :name="item.id"
+      >
+        <van-card
+          :title="item.title"
+          :desc="item.desc"
+          :num="item.num"
+          :price="formatPrice(item.price)"
+          :thumb="item.thumb"
+        />
+      </van-checkbox>
+    </van-checkbox-group>
+    <van-submit-bar
+      :price="totalPrice"
+      :disabled="!checkedGoods.length"
+      :button-text="submitBarText"
+      @submit="onSubmit"
+    />
   </div>
 </template>
 
 <script>
+import { Checkbox, CheckboxGroup, Card, SubmitBar, Toast } from 'vant';
+
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  components: {
+    [Card.name]: Card,
+    [Checkbox.name]: Checkbox,
+    [SubmitBar.name]: SubmitBar,
+    [CheckboxGroup.name]: CheckboxGroup
+  },
+
+  data() {
+    return {
+      checkedGoods: ['1', '2', '3'],
+      goods: [{
+        id: '1',
+        title: '进口香蕉',
+        desc: '约250g，2根',
+        price: 200,
+        num: 1,
+        thumb: 'https://img.yzcdn.cn/public_files/2017/10/24/2f9a36046449dafb8608e99990b3c205.jpeg'
+      }, {
+        id: '2',
+        title: '陕西蜜梨',
+        desc: '约600g',
+        price: 690,
+        num: 1,
+        thumb: 'https://img.yzcdn.cn/public_files/2017/10/24/f6aabd6ac5521195e01e8e89ee9fc63f.jpeg'
+      }, {
+        id: '3',
+        title: '美国伽力果',
+        desc: '约680g/3个',
+        price: 2680,
+        num: 1,
+        thumb: 'https://img.yzcdn.cn/public_files/2017/10/24/320454216bbe9e25c7651e1fa51b31fd.jpeg'
+      }]
+    };
+  },
+
+  computed: {
+    submitBarText() {
+      const count = this.checkedGoods.length;
+      return '结算' + (count ? `(${count})` : '');
+    },
+
+    totalPrice() {
+      return this.goods.reduce((total, item) => total + (this.checkedGoods.indexOf(item.id) !== -1 ? item.price : 0), 0);
+    }
+  },
+
+  methods: {
+    formatPrice(price) {
+      return (price / 100).toFixed(2);
+    },
+
+    onSubmit() {
+      Toast('点击结算');
+    }
   }
-}
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+<style lang="less">
+.card-goods {
+  padding: 10px 0;
+  background-color: #fff;
+
+  &__item {
+    position: relative;
+    background-color: #fafafa;
+
+    .van-checkbox__label {
+      width: 100%;
+      height: auto; // temp
+      padding: 0 10px 0 15px;
+      box-sizing: border-box;
+    }
+
+    .van-checkbox__icon {
+      top: 50%;
+      left: 10px;
+      z-index: 1;
+      position: absolute;
+      margin-top: -10px;
+    }
+
+    .van-card__price {
+      color: #f44;
+    }
+  }
 }
 </style>
