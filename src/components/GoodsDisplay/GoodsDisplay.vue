@@ -5,7 +5,12 @@
 				<template #default>
 					<van-image :src="goods.img" fit="cover" />
 					<div class="gn">{{goods.goodsName}}</div>
-					<span class="gp"><span class="money">￥</span>{{goods.price}}</span>goods.id
+					<span class="gpc">
+						<div class="gpcleft"><span class="money">￥</span>{{goods.price}}</div>
+						<div class="gpcright">
+							<van-icon name="shopping-cart-o" />
+						</div>
+					</span>
 				</template>
 			</van-grid-item>
 		</van-grid>
@@ -21,7 +26,8 @@
 		Grid,
 		GridItem,
 		Image as VanImage,
-		Divider
+		Divider,
+		Icon
 	} from 'vant';
 	export default {
 		props: {
@@ -31,7 +37,8 @@
 			[Grid.name]: Grid,
 			[GridItem.name]: GridItem,
 			[VanImage.name]: VanImage,
-			[Divider.name]: Divider
+			[Divider.name]: Divider,
+			[Icon.name]: Icon
 		},
 		data() {
 			return {}
@@ -61,14 +68,26 @@
 		margin-bottom: 1.25rem;
 	}
 
-	.gp {
+	.gpc {
 		text-align: left;
 		color: red;
 		width: 10.5rem;
+		padding-bottom: 0.5rem;
 
-		.money {
-			font-size: 0.7rem;
+		&left {
+			float: left;
+			padding-left: 0.25rem;
+
+			.money {
+				font-size: 0.7rem;
+			}
 		}
+
+		&right {
+			float: right;
+			padding-right: 0.25rem;
+		}
+
 	}
 
 	.van-grid-item__content {

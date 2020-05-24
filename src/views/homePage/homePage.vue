@@ -1,6 +1,10 @@
 <template>
 	<div class="homePage">
-		<van-button type="default" block round icon="search">搜索商品</van-button>
+		<van-sticky>
+			<div class="searchContainer">
+				<van-button type="default" block icon="search">搜索商品</van-button>
+			</div>
+		</van-sticky>
 		<van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
 			<van-swipe-item v-for="img in swipeItems" :key="img.id">
 				<img v-lazy="img.img" />
@@ -17,7 +21,8 @@
 	import {
 		Button,
 		Swipe,
-		SwipeItem
+		SwipeItem,
+		Sticky
 	} from 'vant';
 	/* 导入请求 */
 	import {
@@ -34,6 +39,7 @@
 			[Button.name]: Button,
 			[Swipe.name]: Swipe,
 			[SwipeItem.name]: SwipeItem,
+			[Sticky.name]: Sticky,
 			GoodsDisplay,
 			TabFooter
 		},
@@ -61,7 +67,7 @@
 	}
 
 	.my-swipe {
-		margin-top: 0.25rem;
+		margin-top: 0rem;
 
 		/* padding: 0rem; */
 		.van-swipe-item {
@@ -71,5 +77,12 @@
 			text-align: center;
 			background-color: #ffffff;
 		}
+	}
+
+	.searchContainer {
+		display: block;
+		text-align: center;
+		background-color: #e5e5e5;
+		padding: 6px 10px;
 	}
 </style>

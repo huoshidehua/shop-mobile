@@ -3,6 +3,10 @@ import base from '../axios/base'
 
 const Random = Mock.Random
 
+const imgIndex = [0, 1, 10, 100, 1000, 1001, 1002, 1003, 1004, 1005, 1006, 1008, 1009, 101, 1010, 1011, 1012, 1013,
+	1014, 1015, 1016, 1018, 1019, 102, 1027, 1080, 111, 119, 129, 157
+];
+
 // mock需要给三个参数,url(与axios请求是传的url一致,我这个是本地启动的项目就直接用本地域名了)
 // 请求类型: get post...其他看文档
 // 数据处理函数,函数需要return数据 http://localhost:8080/test/city
@@ -37,7 +41,7 @@ Mock.mock(`${base.url}${base.homePageSwipeItemsUrl}`, 'get', () => {
 	for (let i = 0; i < 3; i++) {
 		let obj = {
 			id: i + 1,
-			img: "https://i.picsum.photos/id/" + Random.integer(40, 50) + "/400/200.jpg",
+			img: "https://i.picsum.photos/id/" + imgIndex[Random.integer(0, 29)] + "/400/200.jpg",
 			text: 'pic' + (i + 1)
 		}
 		swipeItems.push(obj)
@@ -57,9 +61,10 @@ Mock.mock(`${base.url}${base.homeGoodsList}`, 'post', () => {
 			id: i + 1,
 			goodsName: Random.string(50, 100),
 			desc: Random.string(),
-			barcode: Random.string(13, 13),
+			barcode:Random.string( 'number',13),
+			sku:Random.string( 'number',13),
 			//img: Random.dataImage('200x200', 'pic' + (i + 1)),
-			img: "https://i.picsum.photos/id/" + Random.integer(200, 250) + "/200/200.jpg",
+			img: "https://i.picsum.photos/id/" + imgIndex[Random.integer(0, 29)] + "/200/200.jpg",
 			price: Random.integer(100, 1000),
 			inv: Random.integer(100, 1000),
 			limitNum: Random.integer(100, 1000)
