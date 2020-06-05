@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<van-grid :column-num="2" :gutter="10">
-			<van-grid-item v-for="goods in goodsList" :key="goods.id" :to="{name:'detail',params:{id:goods.id}}" replace>
+			<van-grid-item v-for="goods in goodsList" :key="goods.id" :to="{name:'detail',params:{id:goods.id}}">
 				<template #default>
 					<van-image :src="goods.img" fit="cover" />
 					<div class="gn">{{goods.goodsName}}</div>

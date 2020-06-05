@@ -20,14 +20,18 @@ const routes = [{
 	{
 		path: '/user',
 		name: 'user',
-		component: () => import('../views/user.vue')
+		component: () => import('@/views/user.vue')
 	},
 	{
-		path:'/detail',
-		name:'detail',
-		component:()=>import('@/views/detailPage/detailPage.vue')
+		path: '/detail',
+		name: 'detail',
+		component: () => import('@/views/detailPage/detailPage.vue'),
+		props: true
 	},
-	{path: "*", redirect: "/"}
+	{
+		path: "*",
+		redirect: "/"
+	}
 ]
 
 const router = new VueRouter({
